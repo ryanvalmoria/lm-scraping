@@ -16,10 +16,21 @@ tool should run on command line and headless.
 The scraped-off information should be in XLS format.
 
 
-Installing the Puppeteer library
+1. Clone the repo:
+```
+git clone https://github.com/ryanvalmoria/lm-scraping.git
+```
+
+2. Install the Puppeteer library
 ```
 npm install puppeteer
 ```
+
+3. Install the XLSX library
+```
+npm install xlsx
+```
+
 
 To run the web scraping script in terminal or command line:
 ```
