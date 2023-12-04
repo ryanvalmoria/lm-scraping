@@ -16,7 +16,10 @@ tool should run on command line and headless.
 The scraped-off information should be in XLS format.
 
 
-
+Installing the Puppeteer library
+```
+npm install puppeteer
+```
 
 To run the web scraping script in terminal or command line:
 ```
