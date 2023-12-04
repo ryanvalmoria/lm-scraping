@@ -1,0 +1,20 @@
+{
+  "name": "lm-scraping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "pretty": "^2.0.0",
+    "puppeteer": "^21.5.2",
+    "request": "^2.88.2",
+    "xlsx": "^0.18.5"
+  }
+}
