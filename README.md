@@ -5,10 +5,10 @@ The requirement is to scrape the contents of the Job page of Legalmatch PH, http
 - Job positions/roles
 - General description of the role/position
 - Apply link
--Job details information
-  -responsibilities
-  -requirements
-  -raw paragraph of relevant entire details page
+- Job details information
+  - responsibilities
+  - requirements
+  - raw paragraph of relevant entire details page
   
 The requirement is to code the scraper using JS. As much as possible, unless otherwise
 demonstrated/proven impractical or semi-impossible for the exam duration, the scraping
