@@ -37,6 +37,12 @@ npm install puppeteer
 npm install xlsx
 ```
 
+5. Download packages
+```
+npm install
+```
+
+
 
 To run the web scraping script in terminal or command line:
 ```
