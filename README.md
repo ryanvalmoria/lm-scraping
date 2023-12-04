@@ -16,6 +16,8 @@ tool should run on command line and headless.
 The scraped-off information should be in XLS format.
 
 
+## Prerequisites:
+
 1. Clone the repo:
 ```
 git clone https://github.com/ryanvalmoria/lm-scraping.git
@@ -43,7 +45,7 @@ npm install
 ```
 
 
-
+## Running the script:
 To run the web scraping script in terminal or command line:
 ```
 node app.js
