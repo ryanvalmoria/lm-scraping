@@ -1,18 +1,35 @@
 const puppeteer = require('puppeteer');
 const xlsx = require('xlsx');
 
-async function getPageData(url) {
-    const browser = await puppeteer.launch({headless:'new'});
-    const page = await browser.newPage();
+async function getPageData(url,page) {
     await page.goto(url);
 
-    await page.waitForSelector(".jobs-single__head");
+    
+    try {
+        await page.waitForSelector(".jobs-single__head");
+    } catch (e) {
+        console.log('Failed to load this page: ' + url);
+        return null;
+    }
+
     const jobTitle = await page.$eval(".jobs-single__head h1", h1 => h1.textContent);
     const jobDesc = await page.$eval(".jobs-single__content p", p => p.textContent);
     const rawDetails = await page.$eval(".jobs-single__content", div => div.innerHTML.trim());
-    const responsibilities = await page.$eval("div.jobs-single__content > ul", div => div.innerHTML);
-    const requirements = await page.$eval("div.jobs-single__content > ul", div => div.innerHTML);
+    let responsibilities = '';
+    let requirements = '';
 
+    const allULs = await page.evaluate(() => {
+        const div = document.querySelector('.jobs-single__content');
+        const ulList = div.querySelectorAll('ul');
+        const ulArray = Array.from(ulList).map(ul=>ul.outerHTML);
+        return ulArray;
+    });
+
+    //if length is 2, meaning the structure is is 1 ul for responsibilities and 1 ul for requirements
+    if (allULs.length == 2) {
+        responsibilities = allULs[0];
+        requirements = allULs[1];
+    }
 
     return {
         jobTitle: jobTitle,
@@ -22,7 +39,7 @@ async function getPageData(url) {
         requirements: requirements,
         rawDetails: rawDetails
     }
-    await browser.close();
+    
 }
 
 
@@ -46,16 +63,21 @@ async function main() {
     const allLinks = await getLinks();
     console.log(allLinks);
    
+    const browser = await puppeteer.launch({headless:'new'});
+    const page = await browser.newPage();
     const scrapedData = [];
 
     for(let link of allLinks) {
-        console.log("Link passed is: " + link);
-        const data = await getPageData(link);
-        scrapedData.push(data);
+        console.log("Opened link: " + link);
+        const data = await getPageData(link,page);
+        if (data) {
+            scrapedData.push(data);
+        }
     }
     // console.log("Scraped Data is: ");
     // console.log(scrapedData);
     
+
     //write to excel file the scraped data
     const wb = xlsx.utils.book_new();
     const ws = xlsx.utils.json_to_sheet(scrapedData);
@@ -63,6 +85,7 @@ async function main() {
     xlsx.writeFile(wb,'lmphjobs.xlsx');
 
     console.log("---END---");
+    await browser.close();
 }
 
 main();
