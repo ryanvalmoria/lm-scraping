@@ -21,12 +21,18 @@ The scraped-off information should be in XLS format.
 git clone https://github.com/ryanvalmoria/lm-scraping.git
 ```
 
-2. Install the Puppeteer library
+2. Make sure you have NodeJS installed in your computer
+```
+sudo apt install nodejs
+sudo apt install npm
+```
+
+3. Install the Puppeteer library
 ```
 npm install puppeteer
 ```
 
-3. Install the XLSX library
+4. Install the XLSX library
 ```
 npm install xlsx
 ```
