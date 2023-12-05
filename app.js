@@ -1,10 +1,11 @@
 const puppeteer = require('puppeteer');
 const xlsx = require('xlsx');
 
+//function to scrape data from a particula job link
 async function getPageData(url,page) {
     await page.goto(url);
 
-    
+    //wait for the page to load first before accessing the html elements
     try {
         await page.waitForSelector(".jobs-single__head");
     } catch (e) {
@@ -14,9 +15,24 @@ async function getPageData(url,page) {
 
     const jobTitle = await page.$eval(".jobs-single__head h1", h1 => h1.textContent);
     const jobDesc = await page.$eval(".jobs-single__content p", p => p.textContent);
-    const rawDetails = await page.$eval(".jobs-single__content", div => div.innerHTML.trim());
-    let responsibilities = '';
-    let requirements = '';
+    //const rawDetails = await page.$eval(".jobs-single__content", div => div.innerHTML.trim());
+    const rawDetails = await page.$eval(".jobs-single__content", div => {
+        // Find and remove the div with class name 'jobs-single__btn'
+        const btnDiv = div.querySelector('.jobs-single__btn');
+        if (btnDiv) {
+            btnDiv.remove();
+        }
+
+        // Remove PHP comment
+        div.innerHTML = div.innerHTML.replace(/<!--\?php endif; \?-->/g, '');
+
+        // Return the updated innerHTML
+        return div.innerHTML.trim();
+    });
+
+
+    let responsibilities = 'N/A';
+    let requirements = 'N/A';
 
     const allULs = await page.evaluate(() => {
         const div = document.querySelector('.jobs-single__content');
@@ -25,7 +41,7 @@ async function getPageData(url,page) {
         return ulArray;
     });
 
-    //if length is 2, meaning the structure is is 1 ul for responsibilities and 1 ul for requirements
+    //if length is 2, meaning the structure is 1 ul for responsibilities and 1 ul for requirements
     if (allULs.length == 2) {
         responsibilities = allULs[0];
         requirements = allULs[1];
@@ -39,10 +55,9 @@ async function getPageData(url,page) {
         requirements: requirements,
         rawDetails: rawDetails
     }
-    
 }
 
-
+//function to get the job apply links in the jobs landing page
 async function getLinks() {
     const browser = await puppeteer.launch({headless:'new'});
     const page = await browser.newPage();
@@ -58,6 +73,7 @@ async function getLinks() {
 }
 
 
+//main function called to scrape data
 async function main() {
     //first, get all the links
     const allLinks = await getLinks();
