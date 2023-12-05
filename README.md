@@ -54,3 +54,7 @@ In the root directory, you can find the scraped data in:
 ```
 lmphjobs.xlsx
 ```
+
+Sample result:
+![image](https://github.com/ryanvalmoria/lm-scraping/assets/149349681/b7ef815c-55c2-46d5-ba54-37814cbad79a)
+
