@@ -29,12 +29,12 @@ sudo apt install nodejs
 sudo apt install npm
 ```
 
-3. Install the Puppeteer library
+3. Install the Puppeteer library - used to interact with a webpage in a dynamic way
 ```
 npm install puppeteer
 ```
 
-4. Install the XLSX library
+4. Install the XLSX library - used for saving the scraped data into an excel file
 ```
 npm install xlsx
 ```
